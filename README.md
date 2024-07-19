@@ -11,7 +11,8 @@ A simple todo list app for your need _(maybe)_.
 
 ## Demo
 
-Uhhh
+Go to this link:
+<https://azizkhasyi11.github.io/todolist>
 
 ## Authors
 
