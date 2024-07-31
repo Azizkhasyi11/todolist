@@ -1,18 +1,35 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+/* Color Variables */
+:root {
+  --main-bg-color: #1a1a2e;
+  --secondary-bg-color: #16213e;
+  --container-bg-color: rgba(26, 26, 46, 0.8);
+  --text-color: white;
+  --btn-color: lightblue;
+  --btn-hover-color: black;
+  --task-bg-color: #16213e;
+  --completed-task-opacity: 0.6;
+  --input-bg-color: #16213e;
+  --footer-bg-color: rgba(26, 26, 46, 0.8);
+  --footer-shadow-color: rgba(255, 255, 255, 0.5);
+}
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: white;
+  color: var(--text-color);
   font-family: "Poppins", sans-serif;
-
-  --btn-color: lightblue;
-  --hover-btn: blue;
 }
 
 body {
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  background: linear-gradient(
+    135deg,
+    var(--main-bg-color),
+    var(--secondary-bg-color)
+  );
   margin: 0;
   padding: 20px;
   display: flex;
@@ -22,21 +39,28 @@ body {
   min-height: 100vh;
 }
 
+.custom-bg {
+  background: url("./img/bg.png") no-repeat center center/cover;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
 .container {
-  background: rgba(26, 26, 46, 0.8);
+  background: var(--container-bg-color);
   border-radius: 15px;
   padding: 30px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 20px var(--footer-shadow-color);
   max-width: 500px;
   width: 100%;
   margin-bottom: 20px;
+  animation: slideIn 1s ease;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-size: 2.5em;
-  text-shadow: 0 0 10px rgb(255, 255, 255);
+  text-shadow: 0 0 10px var(--text-color);
 }
 
 form {
@@ -49,23 +73,25 @@ input[type="text"] {
   padding: 10px;
   font-size: 1em;
   border: none;
-  background: #16213e;
+  background: var(--input-bg-color);
   border-radius: 5px 0 0 5px;
+  color: var(--text-color);
 }
 
 button {
   padding: 10px 20px;
   font-size: 1em;
   background: var(--btn-color);
-  color: #1a1a2e;
+  color: var(--main-bg-color);
   border: none;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
   border-radius: 0 5px 5px 0;
 }
 
 button:hover {
-  background: var(--hover-btn);
+  background: var(--btn-hover-color);
+  color: var(--btn-color);
 }
 
 ul {
@@ -74,10 +100,16 @@ ul {
 }
 
 li {
-  background: #16213e;
+  background: var(--task-bg-color);
   margin-bottom: 10px;
-  padding: 15px;
+  padding: 15px 15px 0 15px;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+li > div:first-child {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -96,23 +128,105 @@ li {
 }
 
 .completed {
-  opacity: 0.6;
+  opacity: var(--completed-task-opacity);
+  text-decoration: line-through;
 }
 
 .completed::before {
   content: "✓ ";
 }
 
+.task-date {
+  font-size: 0.6em;
+  opacity: 0.7;
+  text-align: left;
+  padding: 10px 0;
+}
+
 footer {
   text-align: center;
   padding: 20px;
   font-size: 0.9em;
-  background: rgba(26, 26, 46, 0.8);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  background: var(--footer-bg-color);
+  box-shadow: 0 0 10px var(--footer-shadow-color);
   width: 100%;
   position: fixed;
   bottom: 0;
   left: 0;
+}
+
+.filters {
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+#filter,
+#sort {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 10px;
+  border: none;
+  background: var(--input-bg-color);
+  border-radius: 5px;
+  padding: 5px;
+  color: var(--text-color);
+}
+
+select {
+  -webkit-appearance: none; /* For Chrome */
+  -moz-appearance: none; /* For Firefox */
+  appearance: none; /* For other browsers */
+  background: var(--input-bg-color);
+  color: var(--text-color);
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+option {
+  background: var(--input-bg-color);
+  color: var(--text-color);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+    position: fixed;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+    position: relative;
+  }
+}
+
+.rotate {
+  animation: rotate 1s ease;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0);
+  }
+}
+
+.theme-toggler {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 0.5em;
+  font-weight: bold;
+  color: var(--text-color);
+  border-radius: 50px;
 }
 
 @media (max-width: 600px) {
@@ -138,8 +252,16 @@ footer {
     font-size: 0.9em;
   }
 
+  .task-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
   .task-actions button {
     padding: 4px 8px;
     font-size: 0.7em;
   }
 }
+
+/* Made by Aziz Khasyi */
