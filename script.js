@@ -1,4 +1,6 @@
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let theme = JSON.parse(localStorage.getItem("theme")) || false;
+let themeImg = ["./img/bg.png", "./img/bg2.jpg"];
 
 /**
  * Save tasks to local storage
@@ -94,13 +96,24 @@ function deleteTask(index) {
   }
 }
 
+function deleteAll() {
+  if (confirm("Are you sure you want to delete all tasks?")) {
+    if (confirm("This action cannot be undone. Are you sure?")) {
+      tasks = [];
+      saveTasks();
+      renderTasks();
+    } else {
+      alert("Good for you");
+    }
+  }
+}
+
 document.getElementById("task-form").addEventListener("submit", (e) => {
   e.preventDefault();
   const input = document.getElementById("inputTodo");
   const taskText = input.value.trim();
   const now = new Date();
   if (taskText) {
-    document.getElementById("container").classList.toggle("rotate");
     tasks.push({
       text: taskText,
       completed: false,
@@ -114,10 +127,42 @@ document.getElementById("task-form").addEventListener("submit", (e) => {
   }
 });
 
+/**
+ * Get a random image from the themeImg array
+ */
+function getRandomImage() {
+  const randomIndex = Math.floor(Math.random() * themeImg.length);
+  return themeImg[randomIndex];
+}
+
 function toggleTheme() {
   const body = document.body;
-  body.classList.toggle("custom-bg");
+  theme = !theme;
+
+  if (theme) {
+    const randomImage = getRandomImage();
+    body.style.background = `url(${randomImage}) no-repeat center center/cover`;
+    body.style.backdropFilter = "blur(1.5px)";
+    body.classList.add("custom-bg");
+  } else {
+    body.style.background = "";
+    body.classList.remove("custom-bg");
+  }
+
+  localStorage.setItem("theme", JSON.stringify(theme));
 }
 
 // Initial render
 window.addEventListener("DOMContentLoaded", renderTasks);
+window.addEventListener("DOMContentLoaded", () => {
+  const body = document.body;
+  if (theme) {
+    const randomImage = getRandomImage();
+    body.style.background = `url(${randomImage}) no-repeat center center/cover`;
+    body.style.backdropFilter = "blur(1.5px)";
+    body.classList.add("custom-bg");
+  } else {
+    body.style.background = "";
+    body.classList.remove("custom-bg");
+  }
+});

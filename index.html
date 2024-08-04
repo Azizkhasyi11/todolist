@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TodoList: Your Multidimensional Task Manager</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="./img/Fp-link-placeholder.webp">
   </head>
   <body>
-    <button type="button" onclick="toggleTheme()" class="theme-toggler">
-      Toggle Theme
-    </button>
+    <div class="top-settings">
+      <button type="button" onclick="toggleTheme()" class="theme-toggler">
+        Toggle Theme
+      </button>
+      <button type="button" onclick="deleteAll()" class="theme-toggler btn-red">
+        Detele All
+      </button>
+    </div>
     <div class="container" id="container">
       <header>
         <h1>Todo List</h1>
@@ -33,6 +39,7 @@
           placeholder="Enter a new task"
           required
           autofocus
+          maxlength="50"
         />
         <button
           type="submit"
@@ -49,13 +56,12 @@
     </div>
     <footer>
       <p>
-        &copy; 2024
+        Made with ❤️ by
         <a
           href="http://github.com/Azizkhasyi11"
           target="_blank"
           rel="noopener noreferrer"
-          >Aziz Khasyi</a
-        >. All rights reserved.
+          >Aziz Khasyi</a>
       </p>
     </footer>
     <script src="script.js"></script>

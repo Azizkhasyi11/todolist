@@ -14,6 +14,8 @@
   --input-bg-color: #16213e;
   --footer-bg-color: rgba(26, 26, 46, 0.8);
   --footer-shadow-color: rgba(255, 255, 255, 0.5);
+  --background-blur: blur(1px);
+  --footer-blur: blur(5px);
 }
 
 * {
@@ -40,9 +42,9 @@ body {
 }
 
 .custom-bg {
-  background: url("./img/bg.png") no-repeat center center/cover;
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  /* background: url("./img/bg.png") no-repeat center center/cover; */
+  backdrop-filter: var(--background-blur);
+  -webkit-backdrop-filter: var(--background-blur);
 }
 
 .container {
@@ -76,6 +78,13 @@ input[type="text"] {
   background: var(--input-bg-color);
   border-radius: 5px 0 0 5px;
   color: var(--text-color);
+}
+
+input:focus,
+select:focus,
+button:focus,
+option:focus {
+  outline: none;
 }
 
 button {
@@ -153,6 +162,8 @@ footer {
   position: fixed;
   bottom: 0;
   left: 0;
+  backdrop-filter: var(--footer-blur);
+  -webkit-backdrop-filter: var(--footer-blur);
 }
 
 .filters {
@@ -205,28 +216,40 @@ option {
   }
 }
 
-.rotate {
-  animation: rotate 1s ease;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0);
-  }
-}
-
-.theme-toggler {
+.top-settings {
   position: fixed;
   top: 20px;
   right: 20px;
-  cursor: pointer;
   font-size: 0.5em;
-  font-weight: bold;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  border-radius: 5px;
+  backdrop-filter: var(--footer-blur);
+  -webkit-backdrop-filter: var(--footer-blur);
+}
+
+.theme-toggler {
+  cursor: pointer;
   color: var(--text-color);
   border-radius: 50px;
+}
+
+.task-text {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none; 
+  flex-grow: 1;
+  padding: 2px 5px;
+  white-space: nowrap;
+  overflow: scroll;
+}
+
+.btn-red {
+  background: red;
+  color: white;
 }
 
 @media (max-width: 600px) {
