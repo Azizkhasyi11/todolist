@@ -6,6 +6,7 @@
   --main-bg-color: #1a1a2e;
   --secondary-bg-color: #16213e;
   --container-bg-color: rgba(26, 26, 46, 0.8);
+  --completed-task-color: #3a86ff;
   --text-color: white;
   --btn-color: lightblue;
   --btn-hover-color: black;
@@ -116,12 +117,18 @@ li {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  transition: all 0.5s ease;
 }
 
 li > div:first-child {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+li:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 10px var(--footer-shadow-color);
 }
 
 .task-text {
@@ -139,6 +146,11 @@ li > div:first-child {
 .completed {
   opacity: var(--completed-task-opacity);
   text-decoration: line-through;
+}
+
+.completed-task {
+  background: green;
+  color: var(--main-bg-color);
 }
 
 .completed::before {
@@ -219,17 +231,25 @@ option {
 .top-settings {
   position: fixed;
   top: 20px;
-  right: 20px;
+  right: -90px;
   font-size: 0.5em;
   color: var(--text-color);
+  border: solid white 1px;
+  opacity: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
   background: rgba(0, 0, 0, 0.5);
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 10px;
   backdrop-filter: var(--footer-blur);
   -webkit-backdrop-filter: var(--footer-blur);
+  transition: all 1s ease;
+}
+
+.top-settings:hover {
+  opacity: 1;
+  right: 5px;
 }
 
 .theme-toggler {
@@ -239,8 +259,8 @@ option {
 }
 
 .task-text {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none; 
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
   flex-grow: 1;
   padding: 2px 5px;
   white-space: nowrap;
@@ -250,6 +270,11 @@ option {
 .btn-red {
   background: red;
   color: white;
+}
+
+.no-tasks {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 @media (max-width: 600px) {
@@ -287,4 +312,11 @@ option {
   }
 }
 
-/* Made by Aziz Khasyi */
+/* 3d move up animations */
+@keyframes moveUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+  }
+}

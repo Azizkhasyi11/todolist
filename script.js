@@ -1,5 +1,9 @@
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let theme = JSON.parse(localStorage.getItem("theme")) || false;
+let settings = JSON.parse(localStorage.getItem("settings")) || {
+  filter: "all",
+  sort: "asc",
+};
 let themeImg = ["./img/bg.png", "./img/bg2.jpg"];
 
 /**
@@ -10,12 +14,19 @@ function saveTasks() {
 }
 
 /**
+ * Save settings to local storage
+ */
+function saveSettings() {
+  localStorage.setItem("settings", JSON.stringify(settings));
+}
+
+/**
  * Render tasks to the DOM
  */
 function renderTasks() {
   const taskList = document.getElementById("task-list");
-  const taskFilter = document.getElementById("filter").value;
-  const sortOrder = document.getElementById("sort").value;
+  const taskFilter = settings.filter;
+  const sortOrder = settings.sort;
   taskList.innerHTML = "";
 
   let filteredTasks = tasks;
@@ -31,8 +42,16 @@ function renderTasks() {
     filteredTasks.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   }
 
+  if (filteredTasks.length === 0) {
+    const li = document.createElement("li");
+    li.className = "no-tasks";
+    li.textContent = "No tasks to show";
+    taskList.appendChild(li);
+  }
+
   filteredTasks.forEach((task, index) => {
     const li = document.createElement("li");
+    li.className = task.completed ? "completed-task" : "";
     const createdAt = new Date(task.createdAt).toLocaleString();
     const completedAt = task.completedAt
       ? new Date(task.completedAt).toLocaleString()
@@ -152,9 +171,26 @@ function toggleTheme() {
   localStorage.setItem("theme", JSON.stringify(theme));
 }
 
-// Initial render
-window.addEventListener("DOMContentLoaded", renderTasks);
+/**
+ * Update filter and sort settings and save them
+ */
+function updateSettings() {
+  const filter = document.getElementById("filter").value;
+  const sort = document.getElementById("sort").value;
+  settings.filter = filter;
+  settings.sort = sort;
+  saveSettings();
+  renderTasks();
+}
+
+// Apply initial settings and render tasks on page load
 window.addEventListener("DOMContentLoaded", () => {
+  // Apply filter and sort settings
+  document.getElementById("filter").value = settings.filter;
+  document.getElementById("sort").value = settings.sort;
+
+  renderTasks();
+
   const body = document.body;
   if (theme) {
     const randomImage = getRandomImage();
@@ -166,3 +202,7 @@ window.addEventListener("DOMContentLoaded", () => {
     body.classList.remove("custom-bg");
   }
 });
+
+// Listen for changes in filter and sort and update settings
+document.getElementById("filter").addEventListener("change", updateSettings);
+document.getElementById("sort").addEventListener("change", updateSettings);
